@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>该页面不存在-404.life</title>
+    <link rel="shortcut icon">
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .terminal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        .terminal h1 {
+            font-size: 8em;
+            margin: 0;
+        }
+
+        .terminal .text {
+            font-size: 1.5em;
+            margin: 10px 0;
+            opacity: 0.8;
+        }
+
+        .terminal .cursor {
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        .terminal .c {
+            font-size: 1.2em;
+            opacity: 0.6;
+            margin-top: 40px;
+        }
+
+        .terminal .heart {
+            color: #ff4d7d;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        #code-rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="terminal">
+        <h1 id="title">404</h1>
+        <div class="text" id="text_1"></div>
+        <div class="text" id="text_2"></div>
+        <div class="cursor">_</div>
+        <div class="c">
+            bmimw博客考虑不周
+            <span class="heart">&hearts;</span>
+            希望你能谅解
+            <a href="https://bmimw.github.io/" title="Follow me on codepen">跳回首页</a>
+        </div>
+    </div>
+    <canvas id="code-rain-canvas"></canvas>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        // Code Rain
+        function startCodeRain() {
+            var codeRainCanvas = document.getElementById("code-rain-canvas");
+            var codeRainContext = codeRainCanvas.getContext("2d");
+            var codeRainDropSize = 10;
+            var codeRainColumns = Math.floor(window.innerWidth / codeRainDropSize);
+
+            codeRainCanvas.width = window.innerWidth;
+            codeRainCanvas.height = window.innerHeight;
+
+            var codeRainDropPosition = [];
+            for (var i = 0; i < codeRainColumns; i++) {
+                codeRainDropPosition[i] = 1;
+            }
+
+            function codeRainDraw() {
+                codeRainContext.fillStyle = "rgba(0, 0, 0, 0.05)";
+                codeRainContext.fillRect(0, 0, codeRainCanvas.width, codeRainCanvas.height);
+
+                codeRainContext.fillStyle = "#0f0";
+                codeRainContext.font = codeRainDropSize + "px monospace";
+
+                for (var i = 0; i < codeRainColumns; i++) {
+                    var text = String.fromCharCode(
+                        Math.floor(Math.random() * 128)
+                    );
+                    codeRainContext.fillText(
+                        text,
+                        i * codeRainDropSize,
+                        codeRainDropPosition[i] * codeRainDropSize
+                    );
+
+                    if (
+                        codeRainDropPosition[i] * codeRainDropSize >
+                        codeRainCanvas.height ||
+                        Math.random() > 0.95
+                    ) {
+                        codeRainDropPosition[i] = 0;
+                    }
+
+                    codeRainDropPosition[i]++;
+                }
+            }
+
+            setInterval(codeRainDraw, 50);
+        }
+
+        // Text Animation
+        var text_1 = '很抱歉，该页面不存在或者已被删除，请返回首页或关闭这个页面',
+            text_2 = 'Sorry, this page does not exist or has been deleted. Please return to the home page or close this page';
+        repeat(text_1, 1);
+        setTimeout(function() {
+            repeat(text_2, 2);
+        }, text_1.length * 100 + 1000);
+
+        function repeat(text, n) {
+            var i = 0,
+                repeatable = setInterval(function() {
+                    $('#text_' + n).text($('#text_' + n).text() + text[i]);
+                    i++;
+                    if (i >= text.length) {
+                        clearInterval(repeatable);
+                    }
+                }, 100);
+        }
+
+        // Start Code Rain
+        window.onload = function() {
+            startCodeRain();
+        };
+    </script>
+</body>
+
+</html>
